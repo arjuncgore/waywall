@@ -128,38 +128,44 @@ floating_update_anchored(struct wrap *wrap) {
 
     uint32_t x, y;
 
-    switch (wrap->cfg->theme.ninb_anchor) {
-    case ANCHOR_TOPLEFT:
-        x = 0;
-        y = 0;
+    if (wrap->cfg->theme.ninb_position_set) {
+        x = wrap->cfg->theme.ninb_position_x;
+        y = wrap->cfg->theme.ninb_position_y;
+    }
+    else {
+        switch (wrap->cfg->theme.ninb_anchor) {
+        case ANCHOR_TOPLEFT:
+            x = 0;
+            y = 0;
+            break;
+        case ANCHOR_TOP:
+            x = center_x;
+            y = 0;
+            break;
+        case ANCHOR_TOPRIGHT:
+            x = wrap->width - win_width;
+            y = 0;
         break;
-    case ANCHOR_TOP:
-        x = center_x;
-        y = 0;
-        break;
-    case ANCHOR_TOPRIGHT:
-        x = wrap->width - win_width;
-        y = 0;
-        break;
-    case ANCHOR_LEFT:
-        x = 0;
-        y = center_y;
-        break;
-    case ANCHOR_RIGHT:
-        x = wrap->width - win_width;
-        y = center_y;
-        break;
-    case ANCHOR_BOTTOMLEFT:
-        x = 0;
-        y = wrap->height - win_height;
-        break;
-    case ANCHOR_BOTTOMRIGHT:
-        x = wrap->width - win_width;
-        y = wrap->height - win_height;
-        break;
-    default:
-        // Silence release mode compiler warnings.
-        return;
+        case ANCHOR_LEFT:
+            x = 0;
+            y = center_y;
+            break;
+        case ANCHOR_RIGHT:
+            x = wrap->width - win_width;
+            y = center_y;
+            break;
+        case ANCHOR_BOTTOMLEFT:
+            x = 0;
+            y = wrap->height - win_height;
+            break;
+        case ANCHOR_BOTTOMRIGHT:
+            x = wrap->width - win_width;
+            y = wrap->height - win_height;
+            break;
+        default:
+            // Silence release mode compiler warnings.
+            return;
+        }
     }
 
     fview->x = x;
