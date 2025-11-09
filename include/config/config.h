@@ -56,6 +56,9 @@ struct config {
         } ninb_anchor;
 
         double ninb_opacity;
+        bool ninb_position_set;
+        int ninb_position_x;
+        int ninb_position_y;
     } theme;
 
     struct {
