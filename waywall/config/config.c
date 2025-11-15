@@ -668,6 +668,33 @@ process_config_theme(struct config *cfg) {
         return 1;
     }
 
+    /* Parse ninb_position as { x, y } */
+    lua_pushstring(cfg->vm->L, "ninb_position");
+    lua_rawget(cfg->vm->L, -2);
+
+    int t = lua_type(cfg->vm->L, -1);
+    if (t != LUA_TTABLE) {
+        ww_log(LOG_ERROR, "expected 'theme.ninb_position' to be a table, was '%s'", luaL_typename(cfg->vm->L, -1));
+        lua_pop(cfg->vm->L, 1);
+        return 1;
+    }
+    else {
+        lua_rawgeti(cfg->vm->L, -1, 1);
+        lua_rawgeti(cfg->vm->L, -2, 2);
+        if (!lua_isnumber(cfg->vm->L, -2) || !lua_isnumber(cfg->vm->L, -1)) {
+            ww_log(LOG_ERROR, "expected 'theme.ninb_position' to be a table of 2 numbers {x, y}");
+            lua_pop(cfg->vm->L, 3);
+            return 1;
+        }
+        int x = (int)lua_tonumber(cfg->vm->L, -2);
+        int x = (int)lua_tonumber(cfg->vm->L, -1);
+
+        lua_pop(cfg->vm->L, 3);
+        cfg->theme.ninb_position_set = true;
+        cfg->theme.ninb_position_x = x;
+        cfg->theme.ninb_position_y = y;
+    }
+
     return 0;
 }
 
