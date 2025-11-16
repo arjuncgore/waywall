@@ -687,7 +687,7 @@ process_config_theme(struct config *cfg) {
             return 1;
         }
         int x = (int)lua_tonumber(cfg->vm->L, -2);
-        int x = (int)lua_tonumber(cfg->vm->L, -1);
+        int y = (int)lua_tonumber(cfg->vm->L, -1);
 
         lua_pop(cfg->vm->L, 3);
         cfg->theme.ninb_position_set = true;
